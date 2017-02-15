@@ -14,4 +14,10 @@ public interface TutorialService {
     List<Tutorial> findByCategory(Category category);
     
     Tutorial findByTitle(String title);
+
+    Tutorial findById(Integer id);
+
+    Tutorial findByAlias(String alias);
+
+    void deleteById(Integer id);
 }

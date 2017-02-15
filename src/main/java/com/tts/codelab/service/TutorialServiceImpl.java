@@ -35,6 +35,11 @@ public class TutorialServiceImpl implements TutorialService {
         repo.save(db);
         return db;
     }
+    
+    @Override
+    public void deleteById(Integer id) {
+        repo.delete(id);
+    }
 
     @Override
     public List<Tutorial> findByCategory(Category category) {
@@ -44,5 +49,15 @@ public class TutorialServiceImpl implements TutorialService {
     @Override
     public Tutorial findByTitle(String title) {
         return repo.findOneByTitle(title);
+    }
+    
+    @Override
+    public Tutorial findById(Integer id) {
+        return repo.findOne(id);
+    }
+    
+    @Override
+    public Tutorial findByAlias(String alias) {
+        return repo.findOneByAlias(alias);
     }
 }
