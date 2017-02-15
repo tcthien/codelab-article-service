@@ -7,9 +7,9 @@ import com.tts.codelab.domain.Tutorial;
 
 public interface TutorialService {
 
-    Tutorial createTutorial(Tutorial tutorial);
+    Tutorial createTutorial(String author, Tutorial tutorial);
     
-    Tutorial updateTutorial(Tutorial tutorial);
+    Tutorial updateTutorial(String author, Tutorial tutorial);
     
     List<Tutorial> findByCategory(Category category);
     
@@ -19,5 +19,5 @@ public interface TutorialService {
 
     Tutorial findByAlias(String alias);
 
-    void deleteById(Integer id);
+    void deleteById(String author, Integer id);
 }

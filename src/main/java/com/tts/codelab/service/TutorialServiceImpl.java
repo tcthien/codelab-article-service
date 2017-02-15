@@ -17,15 +17,16 @@ public class TutorialServiceImpl implements TutorialService {
     private TutorialRepository repo;
 
     @Override
-    public Tutorial createTutorial(Tutorial tutorial) {
+    public Tutorial createTutorial(String author, Tutorial tutorial) {
         Tutorial tmp = repo.findOneByIdOrAllias(tutorial.getId(), tutorial.getAlias());
         Assert.isNull(tmp, "Tutorial's alias or id already exists: " + tutorial.getAlias() + ", " + tutorial.getId());
+        tutorial.setAuthor(author);
         repo.save(tmp);
         return tmp;
     }
 
     @Override
-    public Tutorial updateTutorial(Tutorial tutorial) {
+    public Tutorial updateTutorial(String author, Tutorial tutorial) {
         Tutorial db = repo.findOne(tutorial.getId());
         Assert.notNull(db, "Tutorial doesn't exist: " + tutorial.getId());
         db.setTitle(tutorial.getTitle());
@@ -37,7 +38,7 @@ public class TutorialServiceImpl implements TutorialService {
     }
     
     @Override
-    public void deleteById(Integer id) {
+    public void deleteById(String author, Integer id) {
         repo.delete(id);
     }
 

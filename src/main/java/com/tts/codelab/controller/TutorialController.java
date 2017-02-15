@@ -1,5 +1,7 @@
 package com.tts.codelab.controller;
 
+import java.security.Principal;
+
 import javax.validation.Valid;
 
 import org.json.JSONObject;
@@ -30,20 +32,20 @@ public class TutorialController {
     }
 
     @RequestMapping(path = "/", method = RequestMethod.POST)
-    public String createTutorial(@Valid @RequestBody Tutorial tutorial) {
-        tutorialService.createTutorial(tutorial);
+    public String createTutorial(Principal principal, @Valid @RequestBody Tutorial tutorial) {
+        tutorialService.createTutorial(principal.getName(), tutorial);
         return JSONObject.quote("success");
     }
     
     @RequestMapping(path = "/", method = RequestMethod.PUT)
-    public Tutorial updateTutorial(@Valid @RequestBody Tutorial tutorial) {
-        tutorialService.updateTutorial(tutorial);
+    public Tutorial updateTutorial(Principal principal, @Valid @RequestBody Tutorial tutorial) {
+        tutorialService.updateTutorial(principal.getName(), tutorial);
         return tutorial;
     }
     
     @RequestMapping(path = "/", method = RequestMethod.DELETE)
-    public Integer deleteTutorial(@Valid @RequestBody Tutorial tutorial) {
-        tutorialService.deleteById(tutorial.getId());
+    public Integer deleteTutorial(Principal principal, @Valid @RequestBody Tutorial tutorial) {
+        tutorialService.deleteById(principal.getName(), tutorial.getId());
         return tutorial.getId();
     }
 }

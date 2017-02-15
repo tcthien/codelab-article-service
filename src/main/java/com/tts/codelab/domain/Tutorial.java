@@ -30,6 +30,8 @@ public class Tutorial {
     private Category category;
 
     private List<TutorialStep> steps;
+    
+    private String author;
 
     public String getTitle() {
         return title;
@@ -69,5 +71,13 @@ public class Tutorial {
 
     public void setAlias(String alias) {
         this.alias = alias;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }
