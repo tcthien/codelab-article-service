@@ -24,6 +24,8 @@ public class Tutorial {
     private Integer id = nextValue();
     
     private String title;
+    
+    private String alias;
 
     private Category category;
 
@@ -59,5 +61,13 @@ public class Tutorial {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 }
