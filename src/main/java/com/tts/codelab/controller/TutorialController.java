@@ -16,6 +16,7 @@ import com.tts.codelab.domain.Tutorial;
 import com.tts.codelab.service.TutorialService;
 
 @RestController
+@RequestMapping(path = "tutorial")
 public class TutorialController {
 
     @Autowired

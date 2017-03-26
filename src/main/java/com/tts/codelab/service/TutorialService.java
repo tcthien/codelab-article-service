@@ -1,9 +1,10 @@
 package com.tts.codelab.service;
 
-import java.util.List;
-
 import com.tts.codelab.domain.Category;
 import com.tts.codelab.domain.Tutorial;
+import com.tts.codelab.domain.TutorialStep;
+
+import java.util.List;
 
 public interface TutorialService {
 
@@ -20,4 +21,8 @@ public interface TutorialService {
     Tutorial findByAlias(String alias);
 
     void deleteById(String author, Integer id);
+
+    TutorialStep findTutorialStep(Integer tutorialId, Integer stepId);
+
+    TutorialStep updateTutorialStep(Integer tutorialId, Integer stepId, TutorialStep step);
 }
