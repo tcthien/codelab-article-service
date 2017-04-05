@@ -2,7 +2,7 @@ FROM mongo:3
 MAINTAINER Thien Tran <thientran1986@gmail.com>
 
 ADD init.sh /init.sh
-ADD ./dump /
+#ADD ./dump /
 
 RUN \
  chmod +x /init.sh && \
