@@ -19,7 +19,7 @@ public class TutorialServiceImpl implements TutorialService {
 
     @Override
     public Tutorial createTutorial(String author, Tutorial tutorial) {
-        Tutorial tmp = repo.findOneByIdOrAllias(tutorial.getId(), tutorial.getAlias());
+        Tutorial tmp = repo.findOneByIdOrAlias(tutorial.getId(), tutorial.getAlias());
         Assert.isNull(tmp, "Tutorial's alias or id already exists: " + tutorial.getAlias() + ", " + tutorial.getId());
         tutorial.setAuthor(author);
         for (int i = 0; i < tutorial.getSteps().size(); i++) {

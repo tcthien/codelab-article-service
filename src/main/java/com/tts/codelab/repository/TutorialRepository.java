@@ -21,6 +21,6 @@ public interface TutorialRepository extends CrudRepository<Tutorial, Integer> {
 
     Tutorial findOneByAlias(String alias);
 
-    Tutorial findOneByIdOrAllias(Integer id, String alias);
+    Tutorial findOneByIdOrAlias(Integer id, String alias);
 
 }
