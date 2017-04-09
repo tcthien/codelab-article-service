@@ -1,18 +1,15 @@
 package com.tts.codelab.repository;
 
-import java.util.List;
-
+import com.tts.codelab.domain.Category;
+import com.tts.codelab.domain.Tutorial;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.tts.codelab.domain.Category;
-import com.tts.codelab.domain.Tutorial;
+import java.util.List;
 
 @Repository
-public interface TutorialRepository extends CrudRepository<Tutorial, Integer> {
+public interface TutorialRepository extends CrudRepository<Tutorial, String> {
 
-    Tutorial findById(Integer id);
-    
     List<Tutorial> findByTitle(String title);
 
     List<Tutorial> findByCategory(Category category);
@@ -20,7 +17,5 @@ public interface TutorialRepository extends CrudRepository<Tutorial, Integer> {
     Tutorial findOneByTitle(String title);
 
     Tutorial findOneByAlias(String alias);
-
-    Tutorial findOneByIdOrAlias(Integer id, String alias);
 
 }

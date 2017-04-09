@@ -14,14 +14,14 @@ public class StepController {
     @Autowired
     private TutorialService tutorialService;
 
-    @RequestMapping(path = "/{tutorialId}/{stepId}", method = RequestMethod.GET)
-    public TutorialStep findById(@PathVariable Integer tutorialId, @PathVariable Integer stepId) {
-        return tutorialService.findTutorialStep(tutorialId, stepId);
+    @RequestMapping(path = "/{tutorialAlias}/{stepId}", method = RequestMethod.GET)
+    public TutorialStep findById(@PathVariable String tutorialAlias, @PathVariable Integer stepId) {
+        return tutorialService.findTutorialStep(tutorialAlias, stepId);
     }
 
-    @RequestMapping(path = "/{tutorialId}/{stepId}", method = RequestMethod.PUT)
-    public TutorialStep updateTutorialStep(@PathVariable Integer tutorialId, @PathVariable Integer stepId,
+    @RequestMapping(path = "/{tutorialAlias}/{stepId}", method = RequestMethod.PUT)
+    public TutorialStep updateTutorialStep(@PathVariable String tutorialAlias, @PathVariable Integer stepId,
                                            @Valid @RequestBody TutorialStep step) {
-        return tutorialService.updateTutorialStep(tutorialId, stepId, step);
+        return tutorialService.updateTutorialStep(tutorialAlias, stepId, step);
     }
 }

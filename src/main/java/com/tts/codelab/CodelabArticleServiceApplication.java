@@ -44,7 +44,7 @@ public class CodelabArticleServiceApplication extends ResourceServerConfigurerAd
         // @formatter:off
         http
             .authorizeRequests()
-                .antMatchers("/", "/tutorial/hello").permitAll()
+                .antMatchers("/*").permitAll()
                 .anyRequest().authenticated();
         // @formatter:on
     }

@@ -1,15 +1,16 @@
 package com.tts.codelab.service;
 
-import java.util.List;
-
+import com.tts.codelab.domain.Category;
+import com.tts.codelab.domain.Tutorial;
 import com.tts.codelab.domain.TutorialStep;
+import com.tts.codelab.repository.TutorialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
-import com.tts.codelab.domain.Category;
-import com.tts.codelab.domain.Tutorial;
-import com.tts.codelab.repository.TutorialRepository;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class TutorialServiceImpl implements TutorialService {
@@ -19,20 +20,20 @@ public class TutorialServiceImpl implements TutorialService {
 
     @Override
     public Tutorial createTutorial(String author, Tutorial tutorial) {
-        Tutorial tmp = repo.findOneByIdOrAlias(tutorial.getId(), tutorial.getAlias());
-        Assert.isNull(tmp, "Tutorial's alias or id already exists: " + tutorial.getAlias() + ", " + tutorial.getId());
+        Tutorial tmp = repo.findOneByAlias(tutorial.getAlias());
+        Assert.isNull(tmp, "Tutorial's alias already exists: " + tutorial.getAlias());
         tutorial.setAuthor(author);
         for (int i = 0; i < tutorial.getSteps().size(); i++) {
             tutorial.getSteps().get(i).setStepId(i);
         }
-        repo.save(tmp);
-        return tmp;
+        repo.save(tutorial);
+        return tutorial;
     }
 
     @Override
     public Tutorial updateTutorial(String author, Tutorial tutorial) {
-        Tutorial db = repo.findOne(tutorial.getId());
-        Assert.notNull(db, "Tutorial doesn't exist: " + tutorial.getId());
+        Tutorial db = repo.findOneByAlias(tutorial.getAlias());
+        Assert.notNull(db, "Tutorial doesn't exist: " + tutorial.getAlias());
         db.setTitle(tutorial.getTitle());
         db.setAlias(tutorial.getAlias());
         db.setCategory(tutorial.getCategory());
@@ -42,8 +43,8 @@ public class TutorialServiceImpl implements TutorialService {
     }
 
     @Override
-    public void deleteById(String author, Integer id) {
-        repo.delete(id);
+    public void deleteByAlias(String author, String alias) {
+        repo.delete(alias);
     }
 
     @Override
@@ -52,13 +53,21 @@ public class TutorialServiceImpl implements TutorialService {
     }
 
     @Override
-    public Tutorial findByTitle(String title) {
-        return repo.findOneByTitle(title);
+    public List<Tutorial> findAll() {
+        return iterableToList(repo.findAll());
+    }
+
+    private List<Tutorial> iterableToList(Iterable<Tutorial> iter) {
+        List<Tutorial> lst = new ArrayList<>();
+        iter.forEach(tutorial -> {
+            lst.add(tutorial);
+        });
+        return lst;
     }
 
     @Override
-    public Tutorial findById(Integer id) {
-        return repo.findOne(id);
+    public Tutorial findByTitle(String title) {
+        return repo.findOneByTitle(title);
     }
 
     @Override
@@ -67,16 +76,17 @@ public class TutorialServiceImpl implements TutorialService {
     }
 
     @Override
-    public TutorialStep findTutorialStep(Integer tutorialId, Integer stepId) {
-        Tutorial tutorial = findById(tutorialId);
+    public TutorialStep findTutorialStep(String tutorialAlias, Integer stepId) {
+        Tutorial tutorial = findByAlias(tutorialAlias);
         return tutorial.getSteps().get(stepId);
     }
 
     @Override
-    public TutorialStep updateTutorialStep(Integer tutorialId, Integer stepId, TutorialStep step) {
-        Tutorial tutorial = findById(tutorialId);
+    public TutorialStep updateTutorialStep(String tutorialAlias, Integer stepId, TutorialStep step) {
+        Tutorial tutorial = findByAlias(tutorialAlias);
         step.setStepId(stepId);
         tutorial.getSteps().set(stepId, step);
+        repo.save(tutorial);
         return step;
     }
 }

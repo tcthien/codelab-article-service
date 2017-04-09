@@ -16,13 +16,13 @@ public interface TutorialService {
     
     Tutorial findByTitle(String title);
 
-    Tutorial findById(Integer id);
-
     Tutorial findByAlias(String alias);
 
-    void deleteById(String author, Integer id);
+    void deleteByAlias(String author, String alias);
 
-    TutorialStep findTutorialStep(Integer tutorialId, Integer stepId);
+    TutorialStep findTutorialStep(String tutorialAlias, Integer stepId);
 
-    TutorialStep updateTutorialStep(Integer tutorialId, Integer stepId, TutorialStep step);
+    TutorialStep updateTutorialStep(String tutorialAlias, Integer stepId, TutorialStep step);
+
+    List<Tutorial> findAll();
 }

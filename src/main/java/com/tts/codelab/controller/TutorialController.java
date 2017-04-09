@@ -1,6 +1,7 @@
 package com.tts.codelab.controller;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -22,14 +23,20 @@ public class TutorialController {
     @Autowired
     private TutorialService tutorialService;
 
-    @RequestMapping(path = "/id/{id}", method = RequestMethod.GET)
-    public Tutorial findById(@PathVariable Integer id) {
-        return tutorialService.findById(id);
-    }
-
-    @RequestMapping(path = "/alias/{alias}", method = RequestMethod.GET)
+    @RequestMapping(path = "/{alias}", method = RequestMethod.GET)
     public Tutorial findByAlias(@PathVariable String alias) {
         return tutorialService.findByAlias(alias);
+    }
+
+    @RequestMapping(path = "/{alias}", method = RequestMethod.DELETE)
+    public String deleteByAlias(Principal principal, @PathVariable String alias) {
+        tutorialService.deleteByAlias(principal.getName(), alias);
+        return alias;
+    }
+
+    @RequestMapping(path = "/", method = RequestMethod.GET)
+    public List<Tutorial> getAllTutorial() {
+        return tutorialService.findAll();
     }
 
     @RequestMapping(path = "/", method = RequestMethod.POST)
@@ -43,15 +50,5 @@ public class TutorialController {
         tutorialService.updateTutorial(principal.getName(), tutorial);
         return tutorial;
     }
-    
-    @RequestMapping(path = "/", method = RequestMethod.DELETE)
-    public Integer deleteTutorial(Principal principal, @Valid @RequestBody Tutorial tutorial) {
-        tutorialService.deleteById(principal.getName(), tutorial.getId());
-        return tutorial.getId();
-    }
 
-    @RequestMapping(path = "/hello", method = RequestMethod.GET)
-    public String helloWorld() {
-        return "Hello World";
-    }
 }
