@@ -37,7 +37,7 @@ public class TutorialController {
         tutorialService.createTutorial(principal.getName(), tutorial);
         return JSONObject.quote("success");
     }
-    
+
     @RequestMapping(path = "/", method = RequestMethod.PUT)
     public Tutorial updateTutorial(Principal principal, @Valid @RequestBody Tutorial tutorial) {
         tutorialService.updateTutorial(principal.getName(), tutorial);
@@ -48,5 +48,10 @@ public class TutorialController {
     public Integer deleteTutorial(Principal principal, @Valid @RequestBody Tutorial tutorial) {
         tutorialService.deleteById(principal.getName(), tutorial.getId());
         return tutorial.getId();
+    }
+
+    @RequestMapping(path = "/hello", method = RequestMethod.GET)
+    public String helloWorld() {
+        return "Hello World";
     }
 }

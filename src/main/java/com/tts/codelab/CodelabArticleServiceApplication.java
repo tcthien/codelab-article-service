@@ -26,47 +26,42 @@ import com.tts.codelab.service.CustomUserInfoTokenServices;
 import feign.RequestInterceptor;
 
 @SpringBootApplication
-@EnableDiscoveryClient
 @EnableResourceServer
-@EnableOAuth2Client
+@EnableDiscoveryClient
 @EnableFeignClients
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableOAuth2Client
 @EnableConfigurationProperties
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class CodelabArticleServiceApplication extends ResourceServerConfigurerAdapter {
 
-    @Autowired
-    private ResourceServerProperties sso;
-    
-	public static void main(String[] args) {
-		SpringApplication.run(CodelabArticleServiceApplication.class, args);
-	}
-	
-	@Bean
+    public static void main(String[] args) {
+        SpringApplication.run(CodelabArticleServiceApplication.class, args);
+    }
+
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        // @formatter:off
+        http
+            .authorizeRequests()
+                .antMatchers("/", "/tutorial/hello").permitAll()
+                .anyRequest().authenticated();
+        // @formatter:on
+    }
+
+    @Bean
     @ConfigurationProperties(prefix = "security.oauth2.client")
     public ClientCredentialsResourceDetails clientCredentialsResourceDetails() {
         return new ClientCredentialsResourceDetails();
     }
-	
-	@Bean
-    public RequestInterceptor oauth2FeignRequestInterceptor(){
+
+    @Bean
+    public RequestInterceptor oauth2FeignRequestInterceptor() {
         return new OAuth2FeignRequestInterceptor(new DefaultOAuth2ClientContext(), clientCredentialsResourceDetails());
     }
-	
-	@Bean
+
+    @Bean
     public OAuth2RestTemplate clientCredentialsRestTemplate() {
         return new OAuth2RestTemplate(clientCredentialsResourceDetails());
-    }
-	
-	@Bean
-    public ResourceServerTokenServices tokenServices() {
-        return new CustomUserInfoTokenServices(sso.getUserInfoUri(), sso.getClientId());
-    }
-	
-	@Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/" , "/demo").permitAll()
-                .anyRequest().authenticated();
     }
 }
