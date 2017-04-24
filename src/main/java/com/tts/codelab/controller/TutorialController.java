@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,7 @@ public class TutorialController {
         return tutorialService.findByAlias(alias);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(path = "/{alias}", method = RequestMethod.DELETE)
     public String deleteByAlias(Principal principal, @PathVariable String alias) {
         tutorialService.deleteByAlias(principal.getName(), alias);
